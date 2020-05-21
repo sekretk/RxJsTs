@@ -28,6 +28,7 @@ import { takeUNtilCOmplte } from './07-takeUntilComplite';
 import { switchMapSub } from './09 - switchMapSubts';
 import { tapTap } from './10-tapTap';
 import { switchMerge } from './11-swithcMerge';
+import { finalizeShare } from './11-finalizeShare';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -56,4 +57,6 @@ const terminator = timer(1500)
 
 //tapTap()
 
-switchMerge()
+//switchMerge()
+
+finalizeShare()

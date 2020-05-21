@@ -5,7 +5,7 @@ export function flowPlay(){
 
     const consoleHandler = (_: any) => console.log(_)
 
-    const der = timer(0, 1000).pipe(first(), tap(consoleHandler), shareReplay())
+    const der = timer(0, 1000).pipe(tap(consoleHandler), share())
     
     der.subscribe(consoleHandler)
 
