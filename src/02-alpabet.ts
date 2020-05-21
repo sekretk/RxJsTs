@@ -3,18 +3,18 @@ import { interval, fromEvent, combineLatest, BehaviorSubject } from 'rxjs';
 import { scan, startWith, map, takeWhile, switchMap } from 'rxjs/operators';
 
 export interface Letter {
-    letter: String;
-    yPos: number;
-  }
-  export interface Letters {
-    ltrs: Letter[];
-    intrvl: number;
-  }
-  export interface State {
-    score: number;
-    letters: Letter[];
-    level: number;
-  }
+  letter: String;
+  yPos: number;
+}
+export interface Letters {
+  ltrs: Letter[];
+  intrvl: number;
+}
+export interface State {
+  score: number;
+  letters: Letter[];
+  level: number;
+}
 
 const randomLetter = () =>
   String.fromCharCode(
@@ -30,8 +30,7 @@ const intervalSubject = new BehaviorSubject(600);
 const letters$ = intervalSubject.pipe(
   switchMap(i =>
     interval(i).pipe(
-      scan < number,
-      Letters >
+      scan<number, Letters>
         (letters => ({
           intrvl: i,
           ltrs: [
@@ -40,9 +39,8 @@ const letters$ = intervalSubject.pipe(
               yPos: Math.floor(Math.random() * gameWidth)
             },
             ...letters.ltrs
-          ]
-        }),
-        { ltrs: [], intrvl: 0 })
+          ] }),
+          { ltrs: [], intrvl: 0 })
     )
   )
 );
@@ -63,14 +61,14 @@ const renderGame = (state: State) => (
     '-'.repeat(gameWidth))
 );
 const renderGameOver = () => (document.body.innerHTML += '<br/>GAME OVER!');
-const noop = () => {};
+const noop = () => { };
 
 const game$ = combineLatest(keys$, letters$).pipe(
-  scan < [string, Letters],
-  State >
+  scan<[string, Letters],
+    State>
     ((state, [key, letters]) => (
       letters.ltrs[letters.ltrs.length - 1] &&
-      letters.ltrs[letters.ltrs.length - 1].letter === key
+        letters.ltrs[letters.ltrs.length - 1].letter === key
         ? ((state.score = state.score + 1), letters.ltrs.pop())
         : noop,
       state.score > 0 && state.score % levelChangeThreshold === 0
@@ -81,7 +79,7 @@ const game$ = combineLatest(keys$, letters$).pipe(
         : noop,
       { score: state.score, letters: letters.ltrs, level: state.level }
     ),
-    { score: 0, letters: [], level: 1 }),
+      { score: 0, letters: [], level: 1 }),
   takeWhile(state => state.letters.length < endThreshold)
 );
 
