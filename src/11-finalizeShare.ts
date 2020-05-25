@@ -1,5 +1,5 @@
 import { ReplaySubject, interval, timer, Subject, merge, of } from "rxjs"
-import { take, takeUntil, scan, map, tap, shareReplay, switchMap, delay, share, finalize, first } from "rxjs/operators"
+import { take, takeUntil, scan, map, tap, shareReplay, switchMap, delay, share, finalize, first, publish, refCount } from "rxjs/operators"
 
 export function finalizeShare() {
 
@@ -9,6 +9,7 @@ export function finalizeShare() {
 
     const originalSource = timer(0, 1000).pipe(
         take(5),
+        takeUntil(of(true).pipe(delay(700))),
         tap(_ => consoleHandler('orig ' + _)),
         finalize(() => consoleHandler('fin-orig')),
         share()

@@ -29,6 +29,7 @@ import { switchMapSub } from './09 - switchMapSubts';
 import { tapTap } from './10-tapTap';
 import { switchMerge } from './11-swithcMerge';
 import { finalizeShare } from './11-finalizeShare';
+import { switchUntilNext } from './12-switchUntilNext';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -59,4 +60,20 @@ const terminator = timer(1500)
 
 //switchMerge()
 
-finalizeShare()
+//finalizeShare()
+
+switchUntilNext()
+
+// create(message: Uint8Array, nestedMsgType: number): [Observable<any>, () => void] {
+//     // ...
+//     const destroyed$ = new Subject<boolean>();
+//     const stopHandler = () => {
+//       // Some needed logic...
+//       destroyed$.next(true);
+//     }:
+//     return [this.obs$.pipe(
+//       takeUntil(destroyed$)
+//       filter(([ id ]) => id === requestId),
+//       map(([ , responseEnvelope ]) => responseEnvelope.nestedMessage.value),
+//     ), stopHandler];
+//   }
