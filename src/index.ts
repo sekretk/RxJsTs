@@ -20,7 +20,17 @@ function logItem(val:any) {
 import { timer, of} from 'rxjs';
 import { mapTo, startWith, scan, tap, map, filter, takeLast, takeUntil, takeWhile } from 'rxjs/operators';
 import { finalizePlay } from './01-finalize';
-import { takeUntilPlay } from './07-takeUntil';
+import { flowPlay } from './03-flowcontrol';
+import { behaviorSwitchPlay } from './04-behaviorSwitch';
+import { playReplay } from './05-replay';
+import { scanOplay } from './06-scan2Play';
+import { takeUNtilCOmplte } from './07-takeUntilComplite';
+import { switchMapSub } from './09 - switchMapSubts';
+import { tapTap } from './10-tapTap';
+import { switchMerge } from './11-swithcMerge';
+import { finalizeShare } from './11-finalizeShare';
+import { switchUntilNext } from './12-switchUntilNext';
+import { schedulerPlay } from './13-scheduler';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -35,4 +45,38 @@ const terminator = timer(1500)
 
 //finalizePlay()
 
-takeUntilPlay()
+//flowPlay()
+
+//behaviorSwitchPlay()
+
+//playReplay()
+
+//scanOplay()
+
+//takeUNtilCOmplte()
+
+//switchMapSub()
+
+//tapTap()
+
+//switchMerge()
+
+//finalizeShare()
+
+//switchUntilNext()
+
+schedulerPlay()
+
+// create(message: Uint8Array, nestedMsgType: number): [Observable<any>, () => void] {
+//     // ...
+//     const destroyed$ = new Subject<boolean>();
+//     const stopHandler = () => {
+//       // Some needed logic...
+//       destroyed$.next(true);
+//     }:
+//     return [this.obs$.pipe(
+//       takeUntil(destroyed$)
+//       filter(([ id ]) => id === requestId),
+//       map(([ , responseEnvelope ]) => responseEnvelope.nestedMessage.value),
+//     ), stopHandler];
+//   }
