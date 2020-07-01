@@ -31,6 +31,7 @@ import { switchMerge } from './11-swithcMerge';
 import { finalizeShare } from './11-finalizeShare';
 import { switchUntilNext } from './12-switchUntilNext';
 import { schedulerPlay } from './13-scheduler';
+import { shareFinalizy } from './14-share_unsubscribe';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -65,7 +66,9 @@ const terminator = timer(1500)
 
 //switchUntilNext()
 
-schedulerPlay()
+//schedulerPlay()
+
+shareFinalizy()
 
 // create(message: Uint8Array, nestedMsgType: number): [Observable<any>, () => void] {
 //     // ...

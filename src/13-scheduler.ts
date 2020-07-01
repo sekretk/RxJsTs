@@ -14,10 +14,11 @@ export function schedulerPlay() {
 
     const obs$= of(0);
 
-    obs$.pipe(observeOn(asap)).subscribe(consoleHandler('asap'))
-    obs$.pipe(observeOn(queue)).subscribe(consoleHandler('queue'))
-    obs$.pipe(observeOn(async)).subscribe(consoleHandler('async'))
-    obs$.pipe(observeOn(animationFrame)).subscribe(consoleHandler('animation'))
+    obs$.pipe(tap(consoleHandler('tap - default'))).subscribe(consoleHandler('default'))
+    obs$.pipe(observeOn(asap), tap(consoleHandler('tap - asap'))).subscribe(consoleHandler('asap'))
+    obs$.pipe(observeOn(queue), tap(consoleHandler('tap - queue'))).subscribe(consoleHandler('queue'))
+    obs$.pipe(observeOn(async), tap(consoleHandler('tap - async'))).subscribe(consoleHandler('async'))
+    obs$.pipe(observeOn(animationFrame), tap(consoleHandler('tap - anime'))).subscribe(consoleHandler('animation'))
 
     setTimeout(consoleHandler('timeout'))
 
