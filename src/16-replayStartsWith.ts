@@ -6,19 +6,18 @@ import { queue } from "rxjs/internal/scheduler/queue";
 import { async } from "rxjs/internal/scheduler/async";
 import { animationFrame } from "rxjs/internal/scheduler/animationFrame";
 
-export function startsWithPlay() {
+export function replayStartWith() {
+
+    const sub$: ReplaySubject<number> = new ReplaySubject<number>(1);
+
+    sub$.next(123)
 
     const startTime = Date.now()
 
     const consoleHandler = (prefix: any) => (value: any) => console.log(`At ${Date.now() - startTime}: ${prefix} ${value}`)
 
-    timer(0, 1000).pipe(startWith(42))
-    .pipe(
-        take(5),
-        tap(consoleHandler('tap')),
-        //filter(s => s === 5),
-        scan((acc, value) => {return acc+value}, 'SRT:'),
-        map(s => 'mapped_'+s),
-        //startWith(1001)
-    ).subscribe(consoleHandler('subscriber'))
+    sub$.pipe(
+        tap(consoleHandler('tap_replay')),
+        switchMap(t => of('a_'+t,'b_'+t,'c_'+t).pipe(startWith('TT_'+t)))
+    ).subscribe(consoleHandler('subscriber_'))
 }
