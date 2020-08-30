@@ -34,6 +34,7 @@ import { schedulerPlay } from './13-scheduler';
 import { shareFinalizy } from './14-share_unsubscribe';
 import { startsWithPlay } from './14-startsWith';
 import { krikz } from './15-krikz';
+import { shareSubscribe } from './16-replayStartsWith';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -91,4 +92,6 @@ const terminator = timer(1500)
 //   }
 
 
-krikz()
+//krikz()
+
+shareSubscribe();
