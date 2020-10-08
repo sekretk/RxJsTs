@@ -36,6 +36,8 @@ import { startsWithPlay } from './14-startsWith';
 import { krikz } from './15-krikz';
 import { shareSubscribe } from './16-replayStartsWith';
 import { playTimer } from './17-timer';
+import { timeoutWithPlay } from './19-timeoutWith';
+import { toPromisePlay } from './20-toPromisePlay';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -93,8 +95,52 @@ const terminator = timer(1500)
 //   }
 
 
-//krikz()
+krikz()
 
 //shareSubscribe();
 
-playTimer();
+//playTimer();
+
+//timeoutWithPlay();
+
+//toPromisePlay();
+
+// type Strings = [string, string];
+// type Numbers = [number, number];
+
+// // [string, string, number, number, boolean]
+// type StrStrNumNumBool = [...Strings, ...Numbers, boolean];
+
+declare function Currying<F extends (...args: any[]) => any>(fn: F): Currying1<F>
+
+type Currying1<F extends (...args: any[]) => any> = F extends (first: infer First, ...rest: infer Rest) => infer FunctionImplementation
+  ? unknown extends First ? FunctionImplementation : (a: First) => Currying1<(...rest: Rest) => FunctionImplementation>
+  : never;
+
+const add = (a: number, b: string, c: boolean): string => a + b
+
+const tt = Currying(add)(1)('2')
+
+type DeepReadonly<T> = T extends never
+  ? T
+  : {
+      readonly [k in keyof T]: DeepReadonly<T[k]>
+    };
+
+
+type someType = {
+    a: string,
+    b: number,
+    c: {
+        d: boolean,
+        e: Array<number>
+    }
+}
+
+type roType = DeepReadonly<someType>
+
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+
+//const rr: ReturnType<(r: string) => string>;
+
+
