@@ -14,7 +14,7 @@ export function nameOf(f: (x: any) => any): keyof any {
 }
 
 export interface I_$<T> {
-	nameOf<V extends T[keyof T]>(
+	nameOf<V extends valueOf<T>>(
 		f: (x: T) => V,
 	): valueOf<{ [K in keyof T]: T[K] extends V ? K : never }>;
 }

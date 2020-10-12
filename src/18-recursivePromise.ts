@@ -1,18 +1,16 @@
-// export const recursiveDomSelector = (timer= 200) =>
-//     (nbTry = 4) =>
-//         <T>(source) =>
-//             (selector: string): Promise<T> => {
-//                 return new Promise((resolve, reject) => {
-//                     if (nbTry === 0) {
-//                         reject('try to get selector to many times');
-//                     }
-//                     setTimeout(() => {
-//                         const target: T = source.querySelector(selector);
-//                         if (target) {
-//                             resolve(target);
-//                         } else {
-//                             resolve(recursiveDomSelector(timer)(nbTry - 1)<T>(source)(selector));
-//                         }
-//                     }, timer);
-//                 });
-//             };
+export const recursivePromise = (timer = 200) =>
+    (nbTry = 4): Promise<number> => {
+                return new Promise((resolve, reject) => {
+                    if (nbTry === 0) {
+                        reject('try to get to many times');
+                    }
+                    setTimeout(() => {
+                        const target = Math.random();
+                        if (target < 0.1) {
+                            resolve(target);
+                        } else {
+                            resolve(recursivePromise(timer)(nbTry-1));
+                        }
+                    }, timer);
+                });
+            };

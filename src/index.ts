@@ -38,6 +38,7 @@ import { shareSubscribe } from './16-replayStartsWith';
 import { playTimer } from './17-timer';
 import { timeoutWithPlay } from './19-timeoutWith';
 import { toPromisePlay } from './20-toPromisePlay';
+import { recursivePromise } from './18-recursivePromise';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -111,36 +112,38 @@ krikz()
 // // [string, string, number, number, boolean]
 // type StrStrNumNumBool = [...Strings, ...Numbers, boolean];
 
-declare function Currying<F extends (...args: any[]) => any>(fn: F): Currying1<F>
+// declare function Currying<F extends (...args: any[]) => any>(fn: F): Currying1<F>
 
-type Currying1<F extends (...args: any[]) => any> = F extends (first: infer First, ...rest: infer Rest) => infer FunctionImplementation
-  ? unknown extends First ? FunctionImplementation : (a: First) => Currying1<(...rest: Rest) => FunctionImplementation>
-  : never;
+// type Currying1<F extends (...args: any[]) => any> = F extends (first: infer First, ...rest: infer Rest) => infer FunctionImplementation
+//   ? unknown extends First ? FunctionImplementation : (a: First) => Currying1<(...rest: Rest) => FunctionImplementation>
+//   : never;
 
-const add = (a: number, b: string, c: boolean): string => a + b
+// const add = (a: number, b: string, c: boolean): string => a + b
 
-const tt = Currying(add)(1)('2')
+// const tt = Currying(add)(1)('2')
 
-type DeepReadonly<T> = T extends never
-  ? T
-  : {
-      readonly [k in keyof T]: DeepReadonly<T[k]>
-    };
+// type DeepReadonly<T> = T extends never
+//   ? T
+//   : {
+//       readonly [k in keyof T]: DeepReadonly<T[k]>
+//     };
 
 
-type someType = {
-    a: string,
-    b: number,
-    c: {
-        d: boolean,
-        e: Array<number>
-    }
-}
+// type someType = {
+//     a: string,
+//     b: number,
+//     c: {
+//         d: boolean,
+//         e: Array<number>
+//     }
+// }
 
-type roType = DeepReadonly<someType>
+// type roType = DeepReadonly<someType>
 
-type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+// type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
 
 //const rr: ReturnType<(r: string) => string>;
 
-
+recursivePromise(200)(5)
+    .then((c) => console.log('resolved: ' + c) )
+    .catch(err => console.log('reject ' + err))
