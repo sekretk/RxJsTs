@@ -40,6 +40,10 @@ import { timeoutWithPlay } from './19-timeoutWith';
 import { toPromisePlay } from './20-toPromisePlay';
 import { recursivePromise } from './18-recursivePromise';
 import { toThrowError } from './21-throwError';
+import { toThrowTypedError } from './21-throwTypedError';
+import { toThrowErrorForMany } from './23-throwError4MultipleSubs';
+import { promiseAfterResolve } from './24-promiseAfterResolve';
+import { closeAndEmit } from './25-closeAndEmit';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -149,4 +153,12 @@ const terminator = timer(1500)
 //     .then((c) => console.log('resolved: ' + c) )
 //     .catch(err => console.log('reject ' + err))
 
-toThrowError()
+//toThrowError()
+
+//toThrowTypedError()
+
+//toThrowErrorForMany()
+
+//setTimeout(() => promiseAfterResolve(), 1000)
+
+closeAndEmit()
