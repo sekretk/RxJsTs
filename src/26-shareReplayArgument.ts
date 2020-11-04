@@ -6,26 +6,7 @@ import { queue } from "rxjs/internal/scheduler/queue";
 import { async } from "rxjs/internal/scheduler/async";
 import { animationFrame } from "rxjs/internal/scheduler/animationFrame";
 
-const terminate = <T>(predicat: (item: T) => boolean) => (source: Observable<T>) => {
-    return new Observable(subscriber => {
-        return source.subscribe({
-          next(value) {
-            subscriber.next(value);
-            if (predicat(value)){
-                subscriber.complete();
-                    }
-          },
-          error(error) {
-            subscriber.error(error);
-          },
-          complete() {
-            subscriber.complete();
-          }
-        });
-      });
-  }
-
-export function closeAndEmit() {
+export function shareReplayArgument() {
 
     const dispose$ = new Subject<Boolean>();
 
@@ -34,18 +15,28 @@ export function closeAndEmit() {
     const consoleHandler = (prefix: any) => (value: any) => console.log(`At ${Date.now() - startTime}: ${prefix} ${JSON.stringify(value)}`)
 
     const source$ = timer(1000, 1000).pipe(
-        map(x => x),
+        take(10),
         tap(consoleHandler('tap')),
-        //takeUntil(dispose$),
-        terminate(t => t === 3)
+        shareReplay(1),
     );
 
 
     source$.subscribe(
         {
-            next: consoleHandler('next'),
-            error: consoleHandler('error'),
-            complete: () => consoleHandler('complete')('-'),
+            next: consoleHandler('1_next'),
+            error: consoleHandler('1_error'),
+            complete: () => consoleHandler('1_complete')('-'),
         }
     );
+
+    setTimeout(() => {
+    source$.subscribe(
+        {
+            next: consoleHandler('2_next'),
+            error: consoleHandler('2_error'),
+            complete: () => consoleHandler('2_complete')('-'),
+        }
+    );
+  }, 2500)
+
 }
