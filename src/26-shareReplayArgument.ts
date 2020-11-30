@@ -15,7 +15,7 @@ export function shareReplayArgument() {
     const consoleHandler = (prefix: any) => (value: any) => console.log(`At ${Date.now() - startTime}: ${prefix} ${JSON.stringify(value)}`)
 
     const source$ = timer(1000, 1000).pipe(
-        take(10),
+        take(5),
         tap(consoleHandler('tap')),
         shareReplay(1),
     );
