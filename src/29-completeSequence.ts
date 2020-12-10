@@ -16,20 +16,30 @@ export function completeSequence() {
 
     const source = timer(1000, 1000).pipe(
         takeUntil(destoy$),
-        finalize(() => consoleHandler('finished_01')('')),
+        finalize(() => consoleHandler('finished')('')),
         tap(consoleHandler('tap')),
-        share(),
+        shareReplay(1),
+        //share(),
     )
 
-    const deried01 = source.pipe(
+    let deried01: Subscription;
+    let deried02: Subscription;
+
+    setTimeout(() => deried01 = source.pipe(
+        tap(consoleHandler('tap_sub_01')),
         finalize(() => consoleHandler('finished_derived_01')('')),
-    ).subscribe();
+    ).subscribe({
+        complete: () => consoleHandler('complete_01')('')
+    }), 1500);
 
-    const deried02 = source.pipe(
+    setTimeout(() => deried02 = source.pipe(
+        tap(consoleHandler('tap_sub_02')),
         finalize(() => consoleHandler('finished_derived_02')('')),
-    ).subscribe();
+        ).subscribe({
+            complete: () => consoleHandler('complete_02')('')
+        }), 2500);
 
-    setTimeout(() => destoy$.next(true), 6000);
-    setTimeout(() => deried01.unsubscribe(), 4000);
-    setTimeout(() => deried02.unsubscribe(), 5000);
+    setTimeout(() => destoy$.next(true), 7500);
+    setTimeout(() => deried01.unsubscribe(), 2500);
+    setTimeout(() => deried02.unsubscribe(), 3500);
 }
