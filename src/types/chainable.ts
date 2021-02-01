@@ -6,9 +6,9 @@ type Chainable<T = {}> = {
 declare const config: Chainable
 
 const result = config
-  .option('foo', 123)
-  .option('name', 'type-challenges')
-  .option('bar', { value: 'Hello World' })
+  .option('id', 123)
+  .option('name', 'homer')
+  .option('bar', { value: 'some value' })
   .get()
 
   type SingleAssignmentChainable<T = {}> = {
