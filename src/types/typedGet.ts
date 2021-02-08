@@ -3,37 +3,53 @@ type tB = 'd' | 'e';
 type someRe = `${tA}.${tB}`
 
 type Get<T, K extends string> = K extends `${infer P0}.${infer P1}` ? P0 extends keyof T ? Get<T[P0], P1> : never : K extends keyof T ? T[K] : never;
+//https://dev.to/phenomnominal/i-need-to-learn-about-typescript-template-literal-types-51po
+type PathImpl<T, Key extends keyof T> =
+  Key extends string
+  ? T[Key] extends Record<string, any>
+    ? | `${Key}.${PathImpl<T[Key], Exclude<keyof T[Key], keyof any[]>> & string}`
+      | `${Key}.${Exclude<keyof T[Key], keyof any[]> & string}`
+    : never
+  : never;
 
-const gettingFunc = <T, K extends string>(value: T, key: string): Get<T,K> => {return undefined;}
+type PathImpl2<T> = PathImpl<T, keyof T> | keyof T;
 
-gettingFunc({a: 1, b: {c: true, d: 'some'}}, 'a')
+type Path<T> = PathImpl2<T> extends string | keyof T ? PathImpl2<T> : keyof T;
 
-type SubjectType = {
-    a: {
-        b: number,
-        c: string,
-    },
-    b: boolean
-}
+type PathValue<T, P extends Path<T>> =
+  P extends `${infer Key}.${infer Rest}`
+  ? Key extends keyof T
+    ? Rest extends Path<T[Key]>
+      ? PathValue<T[Key], Rest>
+      : never
+    : never
+  : P extends keyof T
+    ? T[P]
+    : never;
+    
 
-type rrt = keyof SubjectType['a'|'b']
+declare function get<T, P extends Path<T>>(obj: T, path: P): PathValue<T, P>;
 
-type typeRes = DeepSeleсtor<SubjectType>;
+const object = {
+  firstName: "Diego",
+  lastName: "Haz",
+  age: 30,
+  projects: [
+    { name: "Reakit", contributors: 68 },
+    { name: "Constate", contributors: 12 },
+  ]
+} as const;
 
-const obj: SubjectType;
+type Path01<T, Key extends keyof T = keyof T> =
+  Key extends string
+  ? T[Key] extends Record<string, any>
+    ? | `${Key}.${Path01<T[Key], Exclude<keyof T[Key], keyof Array<any>>> & string}`
+      | `${Key}.${Exclude<keyof T[Key], keyof Array<any>> & string}`
+      | Key
+    : never
+  : never;
 
 
+type test = Path01<typeof object>
 
-const rrr: Get<SubjectType, 'a.b'>;
-
-type DeepPropResult<T,P> = number;
-
-type PropChain<T> = number;
-
-
-
-function someExtractor<T, P extends string>(value: T, selector: P): DeepPropResult<T,P> {
-    return 'some value';
-}
-
-rrr
+get(object, "projects.0");

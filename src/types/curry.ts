@@ -1,11 +1,10 @@
-// your answers
-type Curry<T, U> =
-  T extends [infer head, ...infer tail]
-    ? (arg: head) => Curry<tail, U>
-    : U;
+type Curried<T extends (...args: any) => any> = 
+  T extends (arg: infer A) => infer R 
+    ? (arg: A) => R 
+    : T extends (...args: [infer A, ...infer Args]) => infer R
+      ? (arg: A) => Curried<(...args: Args) => R>
+      : never
 
-declare function Currying<T extends unknown[], U>(fn: (...args: T) => U): Curry<T, U>;
+declare function Currying<T extends (...args: any) => any>(fn: T): Curried<T>
 
-const equal = <T>(a: T, b: T): boolean => a === b;
-
-Currying(equal)()
+Currying((a: number, b: boolean) => true)
