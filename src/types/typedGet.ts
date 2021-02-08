@@ -14,12 +14,19 @@ type PathImpl<T, Key extends keyof T> =
 
 type PathImpl2<T> = PathImpl<T, keyof T> | keyof T;
 
-type Path<T> = PathImpl2<T> extends string | keyof T ? PathImpl2<T> : keyof T;
+type Path<T, Key extends keyof T = keyof T> =
+  Key extends string
+  ? T[Key] extends Record<string, any>
+    ? | `${Key}.${PathImpl<T[Key], Exclude<keyof T[Key], keyof any[]>> & string}`
+      | `${Key}.${Exclude<keyof T[Key], keyof any[]> & string}`
+      | Key
+    : never
+  : never;
 
-type PathValue<T, P extends Path<T>> =
+type PathValue<T, P extends PathImpl2<T>> =
   P extends `${infer Key}.${infer Rest}`
   ? Key extends keyof T
-    ? Rest extends Path<T[Key]>
+    ? Rest extends PathImpl2<T[Key]>
       ? PathValue<T[Key], Rest>
       : never
     : never
@@ -50,6 +57,7 @@ type Path01<T, Key extends keyof T = keyof T> =
   : never;
 
 
-type test = Path01<typeof object>
+type test = Path<typeof object>
+type test2 = PathImpl2<typeof object>
 
-get(object, "projects.0");
+get(object, "projects.0.contributors");
