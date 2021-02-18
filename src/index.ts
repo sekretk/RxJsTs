@@ -48,6 +48,7 @@ import { shareReplayArgument } from './26-shareReplayArgument';
 import { pipeWithCustomOperator } from './27-customOperator';
 import { completeSequence } from './29-completeSequence';
 import { combineLatestPlay } from './30-combineLatestPlay';
+import { switchMapComplete } from './31-switchMapComplete';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -174,4 +175,6 @@ const terminator = timer(1500)
 
 //completeSequence();
 
-combineLatestPlay();
+//combineLatestPlay();
+
+switchMapComplete();
