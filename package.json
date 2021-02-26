@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "types": "types",
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server --mode development",
-    "ts:dtslint": "dtslint ./tests/typing/"
+    "typecheck": "tsd"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
   "dependencies": {
     "rxjs": "~6.5.5",
     "ts-loader": "~7.0.0",
+    "tsd": "~0.14.0",
     "webpack": "~4.42.1",
     "webpack-dev-server": "~3.10.3"
   },
@@ -21,7 +23,7 @@
     "@babel/preset-typescript": "~7.10.4",
     "@types/jest": "~26.0.13",
     "conditional-type-checks": "~1.0.5",
-    "dtslint": "~4.0.2",
+    "dtslint": "~4.0.6",
     "jest": "~26.1.0",
     "rxjs-marbles": "~6.0.0",
     "ts-jest": "~26.1.4",
