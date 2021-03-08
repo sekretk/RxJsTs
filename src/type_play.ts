@@ -1,5 +1,5 @@
 
-type Params<F extends (...args: any[]) => any> = 
+type Params<F extends (...args: any[]) => any> =
 F extends (...args: infer A) => any ? A : never;
 
 const f01 = (a: boolean, b: string, c: Date) => true;
@@ -44,10 +44,33 @@ type Tail<T extends any[]> = T extends [_: any, ...tail: infer TT] ? TT : [];
 
 type Curry01<P extends any[], R> = (args: Head<P>) => HasTail<P> extends true ? Curry01<Tail<P>, R> : R;
 declare function curry01<P extends any[], R>(f: (...args: P) => R): Curry01<P,R>;
-const toCurry = (a: string, b: number, c: boolean) => Date;    
+const toCurry = (a: string, b: number, c: boolean) => Date;
 const testCur01 = curry01(toCurry)('ss')(1)(true);
 
 type Curry02<P extends any[], R> = (arg: Head<P>, ...rest: Tail<Partial<P>>) => HasTail<P> extends true ? Curry02<Tail<P>, R> : R;
 declare function curry02<P extends any[], R>(f: (...args: P) => R): Curry02<P,R>;
-const toCurryWithParams = (a: string, b: number, ...c: boolean[]) => Date;   
+const toCurryWithParams = (a: string, b: number, ...c: boolean[]) => Date;
 const testCurWithParams = curry02(toCurryWithParams)('s')(1)
+
+
+
+type Subj = {
+    a: number,
+    b: boolean,
+    c: string
+}
+
+const funcc = (subj: Subj): string => {
+    return subj.toString();
+}
+
+const on_a: Pick<Subj, 'a'> = {
+    a: 1
+}
+
+const not_a: Omit<Subj, 'a'> = {
+    b: true,
+    c: '123'
+}
+
+funcc({...on_a, ...not_a})
