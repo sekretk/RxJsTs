@@ -10,8 +10,8 @@ type UnionAll<T extends any[]> = T extends [infer F, ...infer R] ? F & UnionAll<
 type DistinctiveUnion<T extends any[]> =
     T extends [infer F, ...infer R]
     ? keyof F extends Exclude<keyof F, keyof DistinctiveUnion<R>>
-    ? F & DistinctiveUnion<R>
-    : {}
+        ? F & DistinctiveUnion<R>
+        : {}
     : T;
 
 type TSubject01 = [number, boolean, string, Array<string>];
@@ -29,7 +29,7 @@ type EX01 = LastInTuple<TSubject01>;
 type TSubject02 = [{ a: string }, { b: number }, { c: boolean }];
 
 const restrictedFunc = (arg: { a: number, b: string, c: boolean }): void => { };
-const resultGen = <T extends any[]>(...args: T): DistinctiveUnion<T> => args as DistinctiveUnion<T>;
+const resultGen = <T extends any[]>(...[first, ...rest]: T): DistinctiveUnion<T> => ({...first, ...resultGen(rest)})
 
 restrictedFunc(
     resultGen(
@@ -47,3 +47,16 @@ const stateObs = (): Observable<{ a: number, b: string, c: boolean }> =>
     ]).pipe(
         map(x => resultGen(...x)),
     );
+
+type Merge<F, S> = {
+    [P in (keyof F | keyof S)]: P extends keyof S ? S[P] : P extends keyof F ? F[P] : never;
+    };
+
+type MergeArr<T extends any[]> =
+T extends [infer F, ...infer R]
+    ? keyof F extends Exclude<keyof F, keyof DistinctiveUnion<R>>
+        ? Merge<F, MergeArr<R>>
+        : {}
+    : {};
+
+const subb: DistinctiveUnion<[{a: number, c: boolean}, {c: number}, {c: boolean}]>;
