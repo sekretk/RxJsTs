@@ -33,9 +33,9 @@ type PathValue<T, P extends PathImpl2<T>> =
   : P extends keyof T
     ? T[P]
     : never;
-    
 
-declare function get<T, P extends Path<T>>(obj: T, path: P): PathValue<T, P>;
+
+//declare function get<T, P extends Path<T>>(obj: T, path: P): PathValue<T, P>;
 
 const object = {
   firstName: "Diego",
@@ -60,4 +60,4 @@ type Path01<T, Key extends keyof T = keyof T> =
 type test = Path<typeof object>
 type test2 = PathImpl2<typeof object>
 
-get(object, "projects.0.contributors");
+//get(object, "projects.0.contributors");
