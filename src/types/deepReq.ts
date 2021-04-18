@@ -11,14 +11,14 @@ type Expect<T extends true> = T
 type Equal<X, Y> =
   (<T>() => T extends X ? 1 : 2) extends
   (<T>() => T extends Y ? 1 : 2) ? true : false
-  
+
 type NotEqual<X, Y> = true extends Equal<X, Y> ? false : true
 
-export type DeepRequired<T> = 
-  T extends Function 
-    ? T 
-    : T extends object 
-      ? { [P in keyof T]-?: DeepRequired<T[P]>; } 
+export type DeepRequired<T> =
+  T extends Function
+    ? T
+    : T extends object
+      ? { [P in keyof T]-?: DeepRequired<T[P]>; }
       : T;
 
 type TestSubjectType02 = {
@@ -49,4 +49,4 @@ type result = Expect<Equal<DeepRequired<TestSubjectType02>, TestSubjectTypeReq02
 
 type condFuncType<T> = T extends object ? boolean : string;
 
-const tt: condFuncType<() => boolean>;
+//const tt: condFuncType<() => boolean>;
