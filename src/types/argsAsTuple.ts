@@ -61,4 +61,4 @@ T extends [infer F, ...infer R]
 
 const subb: DistinctiveUnion<[{a: number, c: boolean}, {c: number}, {c: boolean}]>;
 
-Type T1 = {a: nu}
+//const subb: DistinctiveUnion<[{a: number, c: boolean}, {c: number}, {c: boolean}]>;
