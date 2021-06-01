@@ -7,7 +7,7 @@ type DistinctUnion<TLeft, TRight, Fallback = {}> =
 
 type Mapper<Tin, TinTemp = {}, ToutTemp = {}> = {
     map<K extends Exclude<keyof Tin, keyof TinTemp>, R>(key: K, value: Transformator<Tin[K], R>): 
-    Mapper<Tin, TinTemp & Record<K, Tin[K]>, DistinctUnion<ToutTemp,R>>//IfExludes<ToutTemp, R, Mapper<never>, Mapper<Tin, TinTemp & Record<K, Tin[K]>, ToutTemp & R>>;
+    Mapper<Tin, TinTemp & Record<K, Tin[K]>, DistinctUnion<ToutTemp,R>>
     result(): Transformator<TinTemp, ToutTemp>;
   };
 
@@ -24,10 +24,10 @@ type TIssue2 = {
     d: boolean
 }
 
-
 const issueMapper: Transformator<TIssue1, TIssue2> = 
     mapperFabric<TIssue1>()
     .map('a', (obj) => ({c: obj}))
-    .map('a', (obj) => ({c: obj}))
+    //.map('a', (obj) => ({c: obj})) //ERROR: exclucive source keys
     .map('b', () => ({b: 'aaa', d: true}))
+    //.map('b', () => ({b: 'aaa', d: true, c: 1})) //ERROR: exclusive result object
     .result()
