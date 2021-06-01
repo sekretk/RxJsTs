@@ -12,7 +12,8 @@ type params = [{a: 1}, {b: 'x'}];
 
 const rr: TupleToUnion<params>;
 
-rr.toExponential
-
 type TupleToUnion<T extends Array<any>> = T[number];
 
+type KeyVal<Tin, Tout> = {
+    [P in keyof Tin]: (value: Tin[P]) => Partial<Tout>;
+}

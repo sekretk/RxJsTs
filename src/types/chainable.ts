@@ -46,3 +46,8 @@ const result = config
   s.option('foo', '123')
    //.option('foo', 123) // this error is expected, yay only one assigment of `foo`
    .get()
+
+type Chain<In, Out = In, Tmp = any> = 
+  [] 
+  | [(args: In) => Out] 
+  | [(arg: In) => Tmp, ...Chain<Tmp, Out>];
