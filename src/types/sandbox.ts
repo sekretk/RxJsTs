@@ -62,3 +62,33 @@ const people = [
   // !isTheOne(trr) ? console.log(trr) : console.log(trr);
 
 const en = {one: 1, two: 2} as const;
+
+type PickRequired<T> = {
+  [K in keyof T as T[K] extends Required<T>[K] ? K : never]: K
+}
+
+type RequiredKeys<T> = PickRequired<T>[keyof PickRequired<T>]
+
+type Result = RequiredKeys<{ foo: number; bar?: string }>;
+
+export type StringEnumLike = {
+  [id: string]: string;
+};
+
+enum SomeEnum {
+  SS = 'ss',
+  RR = 'rr'
+}
+
+export const backwardStringEnumGetter= (enumLike: StringEnumLike, value: string, fallback: string): string => enumLike[value] ?? fallback;
+
+const value = SomeEnum.RR;
+
+backwardStringEnumGetter(SomeEnum, value, SomeEnum.RR)
+
+type PartialWithExclutions<T, K extends keyof T> = Partial<T> & {[k in K]: T[k]}
+
+const ttt: PartialWithExclutions<{a: number, b: string}, 'a'>;
+
+ttt.
+

@@ -51,6 +51,9 @@ import { combineLatestPlay } from './30-combineLatestPlay';
 import { switchMapComplete } from './31-switchMapComplete';
 import { bufferWhenPlay } from './32-bufferWhen';
 import { fromPromisePlay } from './33-fromPromise';
+import { intervalPlay } from './34-interval';
+import { shareReplyPlay } from './35-shareReplayPlay';
+import { auditPlay } from './36-auditPlay';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -183,4 +186,10 @@ const terminator = timer(1500)
 
 //bufferWhenPlay();
 
-fromPromisePlay();
+//fromPromisePlay();
+
+//intervalPlay();
+
+//shareReplyPlay();
+
+auditPlay();
