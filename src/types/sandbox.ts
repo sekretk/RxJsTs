@@ -87,9 +87,7 @@ backwardStringEnumGetter(SomeEnum, value, SomeEnum.RR)
 
 type PartialWithExclutions<T, K extends keyof T> = Partial<T> & {[k in K]: T[k]}
 
-const ttt: PartialWithExclutions<{a: number, b: string}, 'a'>;
-
-ttt.
+//const ttt: PartialWithExclutions<{a: number, b: string}, 'a'>;
 
 type KeyVal<Tin, Tout> = {
     [P in keyof Tin]: (value: Tin[P]) => Partial<Tout>;

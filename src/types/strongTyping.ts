@@ -119,10 +119,10 @@ export const objectParser = <T>(props: ReadonlyArray<RequiredKeys<T>>) => (obj: 
 
 const COMPLEX_OBJECT_REQ = ['first', 'second'] as const;
 
-type TEST_TYPE_02 = Expect<Equal<typeof COMPLEX_OBJECT_REQ[number], RequiredKeys<ComplexObject>>>;
+// type TEST_TYPE_02 = Expect<Equal<typeof COMPLEX_OBJECT_REQ[number], RequiredKeys<ComplexObject>>>;
 
-const obj: any = {};
+// // const obj: any = {};
 
-if (ensurerObjectType<ComplexObject>(obj, COMPLEX_OBJECT_REQ)) {
-    obj.
-}
+// // // if (ensurerObjectType<ComplexObject>(obj, COMPLEX_OBJECT_REQ)) {
+// // //     obj.
+// // // }

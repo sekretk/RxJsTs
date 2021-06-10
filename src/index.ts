@@ -54,6 +54,7 @@ import { fromPromisePlay } from './33-fromPromise';
 import { intervalPlay } from './34-interval';
 import { shareReplyPlay } from './35-shareReplayPlay';
 import { auditPlay } from './36-auditPlay';
+import { mapperFabric, Transformator } from './types/mapper';
 
 //emit 0 after 1 second then complete, since no second argument is supplied
 //const source = timer(1000,1000);
@@ -193,3 +194,24 @@ const terminator = timer(1500)
 //shareReplyPlay();
 
 auditPlay();
+
+
+
+type TIssue1 = {
+    a: number,
+    b: boolean,
+};
+
+type TIssue2 = {
+    c: number,
+    b: string,
+    d: boolean,
+};
+
+const issueMapper: Transformator<TIssue1, TIssue2> =
+mapperFabric<TIssue1>()
+.map('a', (a) => ({c: a}))
+.map('b', (b) => ({b: 'aaa', d: true}))
+.result;
+
+//console.log(issueMapper({a: 1, b: true}));
