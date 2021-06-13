@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 type Expect<T extends true> = T
 //UNCOMMENT NEEDED
 //  type ExpectTrue<T extends true> = T
@@ -21,19 +22,25 @@ type NotEqual<X, Y> = true extends Equal<X, Y> ? false : true
 
 
 type Transformator<Tin, Tout> = (obj: Tin) => Tout;
+=======
+export type Transformator<Tin, Tout> = (obj: Tin) => Tout;
+>>>>>>> 364ca5c9c7354a8fa04236afa73f3cac058266f3
 
-type DistinctUnion<TLeft, TRight, Fallback = {}> = 
+type DistinctUnion<TLeft, TRight, Fallback = {}> =
     keyof TLeft extends Exclude<keyof TLeft, keyof TRight>
     ? TLeft & TRight
     : Fallback;
 
-type Mapper<Tin, TinTemp = {}, ToutTemp = {}> = {
-    map<K extends Exclude<keyof Tin, keyof TinTemp>, R>(key: K, value: Transformator<Tin[K], R>): 
+type Mapper<Tin, TinTemp extends Partial<Tin> = {}, ToutTemp = {}> = {
+    map<K extends Exclude<keyof Tin, keyof TinTemp>, R>(key: K, value: Transformator<Tin[K], R>):
     Mapper<Tin, TinTemp & Record<K, Tin[K]>, DistinctUnion<ToutTemp,R>>
-    result(): Transformator<TinTemp, ToutTemp>;
+    result: Transformator<TinTemp, ToutTemp>;
   };
 
-declare function mapperFabric<Tin>(): Mapper<Tin>;
+class MapperInstance<Tin, TinTemp extends Partial<Tin> = {}, ToutTemp = {}> implements Mapper<Tin, TinTemp, ToutTemp> {
+    func: Transformator<TinTemp, ToutTemp>;
+    key: string;
+    value: Transformator<any, any>;
 
 type FlatRequired<T> = {
     [k in keyof T]-?: T[k]
