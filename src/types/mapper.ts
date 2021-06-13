@@ -1,3 +1,25 @@
+type Expect<T extends true> = T
+//UNCOMMENT NEEDED
+//  type ExpectTrue<T extends true> = T
+//  type ExpectFalse<T extends false> = T
+//  type IsTrue<T extends true> = T
+//  type IsFalse<T extends false> = T
+// type Extends<T, K extends T> = T;
+
+// type Equal<X, Y> =
+//   (<T>() => T extends X ? 1 : 2) extends
+//   (<T>() => T extends Y ? 1 : 2) ? true : false
+
+type Equal<X, Y> = 
+    X extends Y 
+        ? Y extends X 
+            ? true
+            : false
+        : false;
+
+type NotEqual<X, Y> = true extends Equal<X, Y> ? false : true
+
+
 type Transformator<Tin, Tout> = (obj: Tin) => Tout;
 
 type DistinctUnion<TLeft, TRight, Fallback = {}> = 
@@ -13,21 +35,41 @@ type Mapper<Tin, TinTemp = {}, ToutTemp = {}> = {
 
 declare function mapperFabric<Tin>(): Mapper<Tin>;
 
+type FlatRequired<T> = {
+    [k in keyof T]-?: T[k]
+}
+
 type TIssue1 = {
-    a: number,
-    b: boolean
+    a?: number,
+    b?: boolean
 }
 
 type TIssue2 = {
-    c: number,
-    b: string,
-    d: boolean
+    c?: number,
+    b?: string,
+    d?: boolean
 }
 
-const issueMapper: Transformator<TIssue1, TIssue2> = 
+const issueMapper = 
     mapperFabric<TIssue1>()
-    .map('a', (obj) => ({c: obj}))
+    .map('a', (obj) => ({c: obj, b: 'aaa',}))
     //.map('a', (obj) => ({c: obj})) //ERROR: exclucive source keys
-    .map('b', () => ({b: 'aaa', d: true}))
+    .map('b', () => ({d: true}))
     //.map('b', () => ({b: 'aaa', d: true, c: 1})) //ERROR: exclusive result object
     .result()
+
+type TransformatorIn<T> = T extends (arg: infer Tin) => any ? Tin : never;
+type tt = TransformatorIn<typeof issueMapper>; //SOLUTION: try to compare this type to TIssue1
+type TCase = Expect<Equal<TransformatorIn<typeof issueMapper>, TIssue1>>;
+
+const testFunc = <T>(_inObj: T): void => undefined;
+testFunc<FlatRequired<TIssue1>>({} as TransformatorIn<typeof issueMapper>);
+testFunc<FlatRequired<TIssue2>>({} as ReturnType<typeof issueMapper>);
+
+type pp = ReturnType<typeof issueMapper>;
+
+const issueCons = (transformator: Transformator<TIssue1, TIssue2>) => (subj: TIssue1): TIssue2 => 
+    transformator(subj);
+
+
+issueCons(issueMapper);
